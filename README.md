@@ -1,67 +1,241 @@
-# MockMate AI - Enterprise Edition (v2.0)
+# 🚀 MockMate AI – AI Powered Mock Interview Platform
 
-MockMate AI is an advanced, enterprise-grade AI interview preparation platform. It utilizes the Gemini 1.5 Pro model to simulate technical, behavioral, and architectural interviews, incorporating real-time facial engagement analysis, algorithmic coding assessment, and actionable career analytics.
+MockMate AI is a modern full-stack AI-powered mock interview platform built to help students and job seekers prepare for technical interviews in an interactive and intelligent way.
 
-## 🚀 Key Enterprise Features
+The platform provides secure authentication, AI-assisted interview preparation, responsive UI, dark/light theme support, and a scalable MERN stack architecture integrated with MongoDB Atlas and Gemini AI.
 
-- **Decoupled Architecture**: Controller-Service separation ensuring high maintainability and testability.
-- **AI Reliability Layer**: Integrated JSON fallback parsing and response sanitization for uninterrupted operations.
-- **Emotion AI & Media Intelligence**: Real-time facial confidence tracking with "Session Health" metrics built into the mock interview UI.
-- **Actionable Career Analytics**: Generates personalized AI learning roadmaps and visual role-progression charts based on weak topics.
-- **Advanced Code Assessment**: Integrated Monaco editor with test case simulation and multi-language AI benchmarking (Time/Space complexities).
-- **Hardened Security**: Protected by `helmet`, `express-rate-limit`, global error handlers, and strict `express-validator` payloads.
-- **Responsive "Glassmorphism" UI**: Modern gradient aesthetics fully responsive across desktop, tablet, and mobile breakpoints using Framer Motion and Tailwind.
+---
 
-## ⚙️ Dependencies & Prerequisites
+# 🌐 Live Project Links
 
-- Node.js (v18+ recommended)
-- MongoDB (Atlas or Local)
-- Google Gemini API Key
+## 🔹 Frontend (Live Website)
+https://mockmate-ai-psi.vercel.app/
 
-## 🛠️ Production Setup Guide
+## 🔹 Backend API
 
-### 1. Clone & Install
-```bash
-# Install backend dependencies
-cd backend
-npm install
+[MockMate AI Backend API](https://mockmate-ai-x4ia.onrender.com?utm_source=chatgpt.com)
 
-# Install frontend dependencies
-cd ../frontend
-npm install
+---
+
+# ✨ Features
+
+## 🔐 Authentication System
+
+* User Signup
+* User Login
+* JWT-based Authentication
+* Secure Password Hashing
+
+---
+
+## 🎨 Modern User Interface
+
+* Fully Responsive Design
+* Dark / Light Mode Toggle
+* Mobile Friendly Layout
+* Clean Modern UI
+
+---
+
+## 🤖 AI Interview Platform
+
+* AI-powered Interview Preparation
+* Technical Interview Practice
+* Interactive User Experience
+* Real-time Frontend & Backend Communication
+
+---
+
+## 🛡️ Backend & Security
+
+* Protected API Routes
+* Environment Variable Security
+* MongoDB Atlas Integration
+* REST API Architecture
+* CORS Protection
+
+---
+
+# 🛠️ Tech Stack
+
+## Frontend Technologies
+
+* React.js
+* Vite
+* Tailwind CSS
+* React Router DOM
+* Axios
+
+---
+
+## Backend Technologies
+
+* Node.js
+* Express.js
+* MongoDB
+* Mongoose
+* JWT Authentication
+* bcryptjs
+* dotenv
+* CORS
+
+---
+
+## Deployment Platforms
+
+* Frontend → Vercel
+* Backend → Render
+* Database → MongoDB Atlas
+
+---
+
+# 📂 Project Structure
+
+```bash id="j7d3kl"
+AI Powered Mock Interview/
+│
+├── backend/
+│   ├── config/
+│   ├── controllers/
+│   ├── middleware/
+│   ├── models/
+│   ├── routes/
+│   ├── services/
+│   ├── uploads/
+│   ├── utils/
+│   ├── server.js
+│   └── package.json
+│
+├── frontend/
+│   ├── public/
+│   ├── src/
+│   ├── package.json
+│   └── vite.config.js
+│
+└── README.md
 ```
 
-### 2. Environment Configuration
-Create a `.env` file in the `/backend` directory:
-```env
+---
+
+# ⚙️ Environment Variables
+
+Create a `.env` file inside the `backend` folder and add the following variables:
+
+```env id="r8f1pz"
 PORT=5000
-MONGODB_URI=your_mongodb_connection_string
-JWT_SECRET=your_hyper_secure_jwt_secret
-GEMINI_API_KEY=your_gemini_api_key
 
-# Set environment to 'production' for optimal performance in live deployments
-NODE_ENV=production
+MONGO_URI=YOUR_MONGODB_URI
+
+JWT_SECRET=YOUR_JWT_SECRET
+
+GEMINI_API_KEY=YOUR_GEMINI_API_KEY
 ```
 
-### 3. Build & Deploy Frontend
-The frontend is built with Vite and React.
-```bash
-cd frontend
-npm run build
-# The /dist folder can now be hosted statically via Vercel, Netlify, or Nginx.
+---
+
+# 📦 Installation & Setup Guide
+
+## Step 1 – Clone the Repository
+
+```bash id="u3m7xt"
+git clone https://github.com/SandhyaDhakad123/mockmate-ai.git
 ```
 
-### 4. Start Backend (Production)
-```bash
+---
+
+## Step 2 – Install Backend Dependencies
+
+```bash id="o5k9qr"
 cd backend
-npm start
+npm install
 ```
-*Note: We recommend using PM2 (`pm2 start server.js`) for process management in a production server.*
 
-## 🔒 Security Practices Assessed
-- **Rate Limiting**: Configured globally at 100 requests / 15 minutes.
-- **XSS & NoSQL Injection Protection**: Validations enforced on every sensitive POST/PATCH body via `express-validator`.
-- **Helmet Headers**: Secure HTTP headers block widespread exploitation vectors.
+---
 
-## 📄 License
-Enterprise Commercial License.
+## Step 3 – Install Frontend Dependencies
+
+```bash id="d1x6mv"
+cd frontend
+npm install
+```
+
+---
+
+## Step 4 – Start Backend Server
+
+```bash id="n9r4pw"
+cd backend
+npm run dev
+```
+
+---
+
+## Step 5 – Start Frontend
+
+```bash id="x7t2kc"
+cd frontend
+npm run dev
+```
+
+---
+
+# 🚀 Deployment
+
+## 🔹 Frontend Deployment
+
+The frontend is deployed on Vercel.
+
+Live URL:
+[MockMate AI Frontend](https://mockmate-ai-psi.vercel.app?utm_source=chatgpt.com)
+
+---
+
+## 🔹 Backend Deployment
+
+The backend API is deployed on Render.
+
+Live URL:
+[MockMate AI Backend](https://mockmate-ai-x4ia.onrender.com?utm_source=chatgpt.com)
+
+---
+
+# 🔒 Security Features
+
+* JWT Authentication
+* Secure Password Hashing
+* Protected Backend Routes
+* MongoDB Atlas Secure Database
+* Environment Variable Protection
+* CORS Security Configuration
+
+
+---
+
+# 🚀 Future Improvements
+
+* Voice-Based AI Interview
+* AI Feedback Analysis
+* Resume Analyzer
+* Coding Round Evaluation
+* Interview History Tracking
+* Performance Analytics Dashboard
+* Real-Time AI Interaction
+
+---
+
+# 👩‍💻 Author
+
+## Sandhya Dhakad
+
+B.Tech CSE (AI & ML)
+Oriental Institute of Science and Technology, Bhopal
+
+### GitHub Profile
+
+[SandhyaDhakad123 GitHub](https://github.com/SandhyaDhakad123?utm_source=chatgpt.com)
+
+---
+
+# 📄 License
+
+This project is created for educational, learning, and portfolio purposes.
