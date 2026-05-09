@@ -1,0 +1,64 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --bg: #050509;
+  --card: #0b0b14;
+  --text: #ffffff;
+  --text-dim: #94a3b8;
+  --primary: #7c3aed;
+  --primary-hover: #6d28d9;
+  --border: rgba(255, 255, 255, 0.1);
+}
+
+@layer base {
+  body {
+    @apply bg-white dark:bg-[#050509] text-slate-900 dark:text-white font-sans antialiased transition-colors duration-300;
+    font-family: 'Inter', sans-serif;
+  }
+}
+
+@layer components {
+  .glass {
+    @apply bg-white dark:bg-[#0b0b14] border border-black/5 dark:border-white/10 rounded-3xl shadow-2xl transition-colors duration-300;
+  }
+
+  .btn-primary {
+    @apply bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-2xl font-bold transition-all flex items-center justify-center gap-2;
+  }
+
+  .btn-secondary {
+    @apply bg-white/5 hover:bg-white/10 text-white border border-white/10 px-6 py-3 rounded-2xl font-bold transition-all;
+  }
+
+  .input-field {
+    @apply w-full h-14 px-4 bg-white dark:bg-[#161622] border border-slate-200 dark:border-slate-700 rounded-xl text-black dark:text-white outline-none focus:ring-2 focus:ring-indigo-500 transition-all text-base placeholder:text-slate-500 dark:placeholder:text-slate-400 placeholder:opacity-100;
+  }
+  
+  .input-field-light {
+    @apply input-field; /* Both should behave the same now as per the request */
+  }
+
+  .gradient-text {
+    @apply bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent;
+  }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+@layer utilities {
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { @apply bg-[#050509]; }
+  ::-webkit-scrollbar-thumb { @apply bg-white/10 rounded-full hover:bg-white/20; }
+}
