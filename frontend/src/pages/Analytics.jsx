@@ -70,7 +70,7 @@ export default function Analytics() {
                     <td className="px-8 py-4 text-sm text-slate-500 dark:text-slate-400 font-medium">{new Date(i.createdAt).toLocaleDateString()}</td>
                     <td className="px-8 py-4">
                       <span className={`px-2 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider ${i.totalScore >= 70 ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-500' : 'bg-amber-500/10 text-amber-600 dark:text-amber-500'}`}>
-                        {i.totalScore}%
+                        {Math.round((i.totalScore / i.maxScore) * 100)}%
                       </span>
                     </td>
                     <td className="px-8 py-4 text-right">

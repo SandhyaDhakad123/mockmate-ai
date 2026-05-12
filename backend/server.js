@@ -1,4 +1,17 @@
 require('dotenv').config();
+
+if (!process.env.JWT_SECRET) {
+  throw new Error("JWT_SECRET missing");
+}
+
+if (!process.env.MONGO_URI) {
+  throw new Error("MONGO_URI missing");
+}
+
+if (!process.env.GEMINI_API_KEY) {
+  throw new Error("GEMINI_API_KEY missing");
+}
+
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -29,7 +42,12 @@ connectDB();
 if (!fs.existsSync('./uploads')) fs.mkdirSync('./uploads');
 
 // Middleware
-const allowedOrigins = ['http://localhost:5173', 'http://localhost:5174', 'http://localhost:5175'];
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://localhost:5174',
+  'http://localhost:5175',
+  process.env.FRONTEND_URL
+];
 app.use(cors({
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.indexOf(origin) !== -1) {

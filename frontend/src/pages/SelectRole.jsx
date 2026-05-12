@@ -31,8 +31,9 @@ export default function SelectRole() {
         difficulty, 
         company: company?.name || 'General' 
       });
+      console.log(res.data);
       toast.success(`Interview for ${company?.name || 'General'} started!`);
-      navigate(`/interview/${res.data.data.interviewId}`);
+      navigate(`/interview/${res.data.data._id}`);
     } catch (err) {
       toast.error("Failed to start interview");
     } finally {
