@@ -1,6 +1,8 @@
-# 🚀 MockMate AI – AI Powered Mock Interview Platform
+# 🚀 MockMate AI – AI-Powered Mock Interview & Real-Time Confidence Analysis Platform
 
 MockMate AI is a modern full-stack AI-powered mock interview platform built to help students and job seekers prepare for technical interviews in an interactive and intelligent way.
+
+An AI-powered full-stack mock interview platform with real-time speech, camera, and confidence analysis features.
 
 The platform provides secure authentication, AI-assisted interview preparation, responsive UI, dark/light theme support, and a scalable MERN stack architecture integrated with MongoDB Atlas and Gemini AI.
 
@@ -37,10 +39,25 @@ The platform provides secure authentication, AI-assisted interview preparation, 
 
 ## 🤖 AI Interview Platform
 
-* AI-powered Interview Preparation
-* Technical Interview Practice
-* Interactive User Experience
+* AI-generated Mock Interviews
+* Real-time Technical Interview Practice
+* Speech-to-Text Answer Support
+* Live Camera & Microphone Monitoring
+* AI-Based Confidence & Expression Tracking
+* Interactive Interview Experience
 * Real-time Frontend & Backend Communication
+
+---
+
+## 🎥 AI Camera & Voice Analysis
+
+* Live Camera Monitoring During Interview
+* Microphone-Based Voice Answer Input
+* Speech Recognition Integration
+* Eye Contact Detection
+* Posture Monitoring
+* Speaking Confidence Tracking
+* Real-time Interview Behavior Analysis
 
 ---
 
@@ -63,6 +80,9 @@ The platform provides secure authentication, AI-assisted interview preparation, 
 * Tailwind CSS
 * React Router DOM
 * Axios
+* Framer Motion
+* Web Speech API
+* MediaDevices API
 
 ---
 
@@ -76,6 +96,10 @@ The platform provides secure authentication, AI-assisted interview preparation, 
 * bcryptjs
 * dotenv
 * CORS
+* Express Rate Limit
+* Helmet Security
+* Express Validator
+* Multer
 
 ---
 
@@ -120,6 +144,7 @@ AI Powered Mock Interview/
 Create a `.env` file inside the `backend` folder and add the following variables:
 
 ```env id="r8f1pz"
+
 PORT=5000
 
 MONGO_URI=YOUR_MONGODB_URI
@@ -127,7 +152,8 @@ MONGO_URI=YOUR_MONGODB_URI
 JWT_SECRET=YOUR_JWT_SECRET
 
 GEMINI_API_KEY=YOUR_GEMINI_API_KEY
-```
+
+FRONTEND_URL=http://localhost:5173
 
 ---
 
@@ -184,7 +210,7 @@ npm run dev
 The frontend is deployed on Vercel.
 
 Live URL:
-[MockMate AI Frontend](https://mockmate-ai-psi.vercel.app?utm_source=chatgpt.com)
+https://mockmate-ai-psi.vercel.app/
 
 ---
 
@@ -193,31 +219,45 @@ Live URL:
 The backend API is deployed on Render.
 
 Live URL:
-[MockMate AI Backend](https://mockmate-ai-x4ia.onrender.com?utm_source=chatgpt.com)
+https://mockmate-ai-x4ia.onrender.com
 
 ---
 
 # 🔒 Security Features
 
 * JWT Authentication
-* Secure Password Hashing
+* Password Hashing using bcryptjs
 * Protected Backend Routes
-* MongoDB Atlas Secure Database
-* Environment Variable Protection
-* CORS Security Configuration
+* Environment Variable Security
+* CORS Protection
+* Helmet Security Middleware
+* API Rate Limiting
+* Input Validation & Error Handling
 
 
 ---
 
 # 🚀 Future Improvements
 
-* Voice-Based AI Interview
-* AI Feedback Analysis
-* Resume Analyzer
-* Coding Round Evaluation
-* Interview History Tracking
-* Performance Analytics Dashboard
-* Real-Time AI Interaction
+* AI Facial Emotion Analysis
+* AI-Based Resume Scoring
+* Coding Interview Auto-Evaluation
+* Interview Recording & Playback
+* Multi-Language Interview Support
+* AI Performance Analytics Dashboard
+* Real-time AI Feedback Suggestions
+
+---
+
+# 💡 Key Highlights
+
+* Full-stack MERN Application
+* Production Deployment on Vercel & Render
+* MongoDB Atlas Cloud Database
+* AI Integration using Gemini API
+* Real-time Camera & Voice Features
+* Responsive Modern UI/UX
+* Secure Authentication System
 
 ---
 
@@ -230,7 +270,7 @@ Oriental Institute of Science and Technology, Bhopal
 
 ### GitHub Profile
 
-[SandhyaDhakad123 GitHub](https://github.com/SandhyaDhakad123?utm_source=chatgpt.com)
+https://github.com/SandhyaDhakad123/mockmate-ai
 
 ---
 
