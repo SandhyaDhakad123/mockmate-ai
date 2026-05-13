@@ -103,18 +103,22 @@ Evaluate the answer and respond with ONLY a valid JSON object:
 const generateFeedbackReport = async (role, questionsAndAnswers, totalScore, maxScore) => {
   const percentage = Math.round((totalScore / maxScore) * 100);
   const qaText = questionsAndAnswers.map((q, i) => 
-    `Q${i+1}: ${q.question}\nAnswer: ${q.answer || 'Not answered'}\nScore: ${q.score}/10`
+    `Q${i+1}: ${q.question}\nAnswer: ${q.answer || 'Not answered'}\nScore: ${q.score}/10\nEmotions Tracked: ${(q.emotions || []).join(', ') || 'None'}`
   ).join('\n\n');
 
   try {
     const prompt = `You are an expert career coach reviewing a mock interview for a ${role} position.
-
+    
 Interview Results (${percentage}% - ${totalScore}/${maxScore}):
 ${qaText}
 
 Generate a comprehensive feedback report as ONLY a valid JSON object:
 {
   "overallFeedback": "<2-3 sentences summarizing overall performance>",
+  "communicationScore": <number from 0-10>,
+  "confidenceScore": <number from 0-10>,
+  "technicalScore": <number from 0-10>,
+  "behavioralAnalysis": "<short paragraph analyzing candidate's behavioral and emotional presence based on answers and emotions tracked>",
   "strengths": ["<strength 1>", "<strength 2>", "<strength 3>"],
   "weaknesses": ["<weakness 1>", "<weakness 2>", "<weakness 3>"],
   "recommendations": ["<recommendation 1>", "<recommendation 2>", "<recommendation 3>", "<recommendation 4>"]
@@ -124,6 +128,10 @@ Generate a comprehensive feedback report as ONLY a valid JSON object:
     const text = result.response.text().trim();
     return safeParseJSON(text, {
       overallFeedback: "Standard review complete.",
+      communicationScore: 5,
+      confidenceScore: 5,
+      technicalScore: 5,
+      behavioralAnalysis: "Candidate maintained a neutral stance.",
       strengths: ["Communication", "Technical Knowledge"],
       weaknesses: ["Deep Architecture", "Optimizations"],
       recommendations: ["Study system design", "Practice DSA"]
@@ -132,6 +140,10 @@ Generate a comprehensive feedback report as ONLY a valid JSON object:
     console.error("Gemini API Error (Report):", err.message);
     return {
       overallFeedback: "Your interview data has been recorded. AI summary is currently processing or unavailable.",
+      communicationScore: 5,
+      confidenceScore: 5,
+      technicalScore: 5,
+      behavioralAnalysis: "Evaluation unavailable.",
       strengths: ["Consistency", "Participation"],
       weaknesses: ["AI analysis offline"],
       recommendations: ["Keep practicing", "Review your recorded answers"]

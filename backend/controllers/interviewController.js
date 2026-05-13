@@ -90,6 +90,10 @@ const finishInterview = async (req, res) => {
     );
 
     interview.overallFeedback = report.overallFeedback || '';
+    interview.communicationScore = report.communicationScore || 0;
+    interview.confidenceScore = report.confidenceScore || 0;
+    interview.technicalScore = report.technicalScore || 0;
+    interview.behavioralAnalysis = report.behavioralAnalysis || '';
     interview.strengths = report.strengths || [];
     interview.weaknesses = report.weaknesses || [];
     interview.recommendations = report.recommendations || [];

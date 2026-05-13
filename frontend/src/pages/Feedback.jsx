@@ -102,9 +102,24 @@ export default function Feedback() {
             </div>
           </div>
           <h3 style={{ fontSize: '1.2rem', fontWeight: 800, marginBottom: '8px' }}>{percentage >= 70 ? 'Excellent Match!' : 'Good Effort'}</h3>
-          <p style={{ fontSize: '0.9rem', color: '#94a3b8', lineHeight: 1.5 }}>
+          <p style={{ fontSize: '0.9rem', color: '#94a3b8', lineHeight: 1.5, marginBottom: '24px' }}>
             {interview.overallFeedback}
           </p>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '24px' }}>
+            <div>
+              <div style={{ fontSize: '1.5rem', fontWeight: 700, color: '#3b82f6' }}>{interview.communicationScore || 0}/10</div>
+              <div style={{ fontSize: '0.7rem', color: '#64748b', textTransform: 'uppercase' }}>Communication</div>
+            </div>
+            <div>
+              <div style={{ fontSize: '1.5rem', fontWeight: 700, color: '#a855f7' }}>{interview.confidenceScore || 0}/10</div>
+              <div style={{ fontSize: '0.7rem', color: '#64748b', textTransform: 'uppercase' }}>Confidence</div>
+            </div>
+            <div>
+              <div style={{ fontSize: '1.5rem', fontWeight: 700, color: '#10b981' }}>{interview.technicalScore || 0}/10</div>
+              <div style={{ fontSize: '0.7rem', color: '#64748b', textTransform: 'uppercase' }}>Technical</div>
+            </div>
+          </div>
         </div>
 
         {/* Breakdown */}
@@ -134,6 +149,13 @@ export default function Feedback() {
               ))}
             </div>
           </div>
+          
+          {interview.behavioralAnalysis && (
+            <div className="glass" style={{ padding: '24px', borderLeft: '4px solid #8b5cf6' }}>
+              <h4 style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#8b5cf6', marginBottom: '16px' }}>Behavioral Analysis</h4>
+              <p style={{ color: '#cbd5e1', fontSize: '0.9rem', lineHeight: 1.6 }}>{interview.behavioralAnalysis}</p>
+            </div>
+          )}
         </div>
       </div>
 
