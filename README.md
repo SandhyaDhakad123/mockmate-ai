@@ -10,7 +10,7 @@ The platform provides secure authentication, AI-assisted interview preparation, 
 
 # 🌐 Live Project Links
 
-## 🔹 Frontend (Live Website)  -> https://mockmate-ai-psi.vercel.app/
+## 🔹 Frontend (Live Website)  -> https://mockmate-ai-git-main-sandhyas-projects-dd73e2cb.vercel.app/
 
 ## 🔹 Backend API -> https://mockmate-ai-x4ia.onrender.com
 
