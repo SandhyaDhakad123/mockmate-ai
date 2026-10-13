@@ -6,6 +6,14 @@ export default defineConfig({
   plugins: [react()],
   optimizeDeps: {
     include: ['jspdf', 'jspdf-autotable']
+  },
+  server: {
+    port: 5173,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:5000',
+        changeOrigin: true
+      }
+    }
   }
 })
-

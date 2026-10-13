@@ -61,27 +61,38 @@ const allowedOrigins = [
   'http://localhost:5173',
   'http://localhost:5174',
   'http://localhost:5175',
+  'http://localhost:3000',
+  'http://localhost:4173',
+  'https://mockmate-ai-psi.vercel.app',
   process.env.FRONTEND_URL
 ].filter(Boolean);
 
+const isAllowedOrigin = (origin) => {
+  if (!origin) return true;
+  if (allowedOrigins.includes(origin)) return true;
+  // Allow any localhost / 127.0.0.1 port
+  if (/^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)) return true;
+  // Allow all Vercel preview and production deployments for this project
+  if (/^https:\/\/[a-z0-9\-]+(\.[a-z0-9\-]+)*\.vercel\.app$/i.test(origin)) return true;
+  return false;
+};
+
 app.use(cors({
   origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
+    if (isAllowedOrigin(origin)) {
       callback(null, true);
     } else {
-      callback(new Error('Not allowed by CORS'));
+      callback(null, false);
     }
   },
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  credentials: true
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin'],
+  credentials: true,
+  optionsSuccessStatus: 200
 }));
-
 
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
-
-// Rate limiting
-app.use('/api/', limiter);
 
 // Routes
 app.use('/api/auth', require('./routes/auth'));

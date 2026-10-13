@@ -1,79 +1,77 @@
 import { useState, useRef, useEffect } from 'react';
-import { Video, Square, Play, Download } from 'lucide-react';
+import { Download } from 'lucide-react';
+import { toast } from 'react-hot-toast';
 
 export default function InterviewRecorder({ stream, isRecording, onRecordingComplete }) {
   const [recordedChunks, setRecordedChunks] = useState([]);
+  const chunksRef = useRef([]);
   const mediaRecorderRef = useRef(null);
   const [recordingDuration, setRecordingDuration] = useState(0);
   const timerRef = useRef(null);
 
   useEffect(() => {
     if (isRecording && stream) {
-      startRecording();
-      setRecordingDuration(0);
-      timerRef.current = setInterval(() => {
-        setRecordingDuration(prev => prev + 1);
-      }, 1000);
+      chunksRef.current = [];
+      try {
+        const mimeType = MediaRecorder.isTypeSupported('video/webm;codecs=vp8,opus') 
+          ? 'video/webm;codecs=vp8,opus' 
+          : 'video/webm';
+          
+        const recorder = new MediaRecorder(stream, { mimeType });
+        
+        recorder.ondataavailable = (e) => {
+          if (e.data && e.data.size > 0) {
+            chunksRef.current.push(e.data);
+          }
+        };
+
+        recorder.onstop = () => {
+          setRecordedChunks([...chunksRef.current]);
+          if (onRecordingComplete) onRecordingComplete();
+        };
+
+        recorder.onerror = (event) => {
+          console.error("MediaRecorder error:", event.error);
+          toast.error("Recording error occurred.");
+        };
+
+        recorder.start(1000);
+        mediaRecorderRef.current = recorder;
+
+        timerRef.current = setInterval(() => {
+          setRecordingDuration(prev => prev + 1);
+        }, 1000);
+      } catch (err) {
+        console.error("Recording failed to start:", err);
+        toast.error("Failed to start session recording.");
+      }
     } else {
-      stopRecording();
+      if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
+        try {
+          mediaRecorderRef.current.stop();
+        } catch (err) {
+          console.error("Error stopping recorder:", err);
+        }
+        mediaRecorderRef.current = null;
+      }
       if (timerRef.current) {
         clearInterval(timerRef.current);
         timerRef.current = null;
       }
     }
+
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
-      stopRecording();
-    };
-  }, [isRecording, stream]);
-
-  const startRecording = () => {
-    if (!stream) return;
-    
-    try {
-      setRecordedChunks([]); // Clear previous chunks
-      
-      // Determine supported mime type
-      const mimeType = MediaRecorder.isTypeSupported('video/webm;codecs=vp8,opus') 
-        ? 'video/webm;codecs=vp8,opus' 
-        : 'video/webm';
-        
-      const recorder = new MediaRecorder(stream, { mimeType });
-      
-      recorder.ondataavailable = (e) => {
-        if (e.data && e.data.size > 0) {
-          setRecordedChunks(prev => [...prev, e.data]);
+      if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
+        try {
+          mediaRecorderRef.current.stop();
+        } catch (err) {
+          console.warn("Cleanup recorder error:", err);
         }
-      };
-
-      recorder.onstop = () => {
-        // Optional: process recording here if needed
-        if (onRecordingComplete) onRecordingComplete();
-      };
-
-      recorder.onerror = (event) => {
-        console.error("MediaRecorder error:", event.error);
-        toast.error("Recording error occurred.");
-      };
-
-      recorder.start(1000); // Collect data in 1s chunks
-      mediaRecorderRef.current = recorder;
-    } catch (err) {
-      console.error("Recording failed to start:", err);
-      toast.error("Failed to start session recording.");
-    }
-  };
-
-  const stopRecording = () => {
-    if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
-      try {
-        mediaRecorderRef.current.stop();
-      } catch (err) {
-        console.error("Error stopping recorder:", err);
+        mediaRecorderRef.current = null;
       }
-      mediaRecorderRef.current = null;
-    }
-  };
+    };
+  }, [isRecording, stream, onRecordingComplete]);
 
   const formatTime = (seconds) => {
     const mins = Math.floor(seconds / 60);

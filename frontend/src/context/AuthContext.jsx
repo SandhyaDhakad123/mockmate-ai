@@ -1,21 +1,24 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { getMe } from '../services/api';
-
-const AuthContext = createContext(null);
+import { AuthContext } from './authContextInstance';
+import { useAuth } from './useAuth';
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(() => {
+    return typeof window !== 'undefined' && !!localStorage.getItem('token');
+  });
 
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
       getMe()
         .then(res => setUser(res.data))
-        .catch(() => { localStorage.removeItem('token'); })
+        .catch(() => {
+          localStorage.removeItem('token');
+          setUser(null);
+        })
         .finally(() => setLoading(false));
-    } else {
-      setLoading(false);
     }
   }, []);
 
@@ -36,4 +39,6 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-export const useAuth = () => useContext(AuthContext);
+// eslint-disable-next-line react-refresh/only-export-components
+export { useAuth };
+export default AuthProvider;

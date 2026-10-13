@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { getResume, getATSScore } from '../services/api';
 import MotionPage from '../components/UI/MotionPage';
 import { CardSkeleton } from '../components/UI/Skeleton';
-import { CheckCircle, AlertCircle, Award, Briefcase, GraduationCap, Code2 } from 'lucide-react';
+import { CheckCircle, AlertCircle, Briefcase, GraduationCap, Code2 } from 'lucide-react';
 
 export default function ResumeAnalysis() {
   const [resume, setResume] = useState(null);

@@ -11,7 +11,7 @@ export default function Analytics() {
   useEffect(() => {
     getAnalyticsSummary()
       .then(res => setData(res.data.data))
-      .catch(err => console.error(err))
+      .catch(err => console.error("Error fetching analytics:", err))
       .finally(() => setLoading(false));
   }, []);
 
@@ -21,12 +21,21 @@ export default function Analytics() {
     </div>
   );
 
+  const summary = data?.summary || {
+    avgInterviewScore: 0,
+    avgCodingScore: 0,
+    atsScore: 0,
+    totalInterviews: 0
+  };
+
   const stats = [
-    { label: 'Avg Interview Score', value: `${data.summary.avgInterviewScore}%`, icon: Trophy, color: 'text-indigo-400' },
-    { label: 'Avg Coding Score', value: `${data.summary.avgCodingScore}%`, icon: Code, color: 'text-purple-400' },
-    { label: 'ATS Score', value: `${data.summary.atsScore}%`, icon: FileText, color: 'text-emerald-400' },
-    { label: 'Total Interviews', value: data.summary.totalInterviews, icon: Activity, color: 'text-amber-400' }
+    { label: 'Avg Interview Score', value: `${summary.avgInterviewScore || 0}%`, icon: Trophy, color: 'text-indigo-400' },
+    { label: 'Avg Coding Score', value: `${summary.avgCodingScore || 0}%`, icon: Code, color: 'text-purple-400' },
+    { label: 'ATS Score', value: `${summary.atsScore || 0}%`, icon: FileText, color: 'text-emerald-400' },
+    { label: 'Total Interviews', value: summary.totalInterviews || 0, icon: Activity, color: 'text-amber-400' }
   ];
+
+  const interviews = data?.history?.interviews || [];
 
   return (
     <div className="min-h-screen pt-12 pb-20 px-6 bg-white dark:bg-[#0f172a] transition-colors duration-300">
@@ -50,38 +59,61 @@ export default function Analytics() {
             <h3 className="text-lg font-black text-slate-800 dark:text-white flex items-center gap-2">
               <History size={20} className="text-slate-400 dark:text-slate-500" /> Interview History
             </h3>
+            {interviews.length > 0 && (
+              <button 
+                onClick={() => navigate('/select-role')}
+                className="text-xs font-bold text-indigo-500 hover:underline"
+              >
+                + New Interview
+              </button>
+            )}
           </div>
           <div className="overflow-x-auto">
-            <table className="w-full text-left">
-              <thead className="bg-slate-50 dark:bg-slate-800/50">
-                <tr>
-                  <th className="px-8 py-4 text-xs font-black text-slate-500 uppercase tracking-widest">Role</th>
-                  <th className="px-8 py-4 text-xs font-black text-slate-500 uppercase tracking-widest">Date</th>
-                  <th className="px-8 py-4 text-xs font-black text-slate-500 uppercase tracking-widest">Score</th>
-                  <th className="px-8 py-4 text-xs font-black text-slate-500 uppercase tracking-widest text-right">Action</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-                {data.history?.interviews?.map((i) => (
-                  <tr key={i._id} className="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
-                    <td className="px-8 py-4">
-                      <div className="text-sm font-bold text-slate-800 dark:text-white">{i.role}</div>
-                    </td>
-                    <td className="px-8 py-4 text-sm text-slate-500 dark:text-slate-400 font-medium">{new Date(i.createdAt).toLocaleDateString()}</td>
-                    <td className="px-8 py-4">
-                      <span className={`px-2 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider ${i.totalScore >= 70 ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-500' : 'bg-amber-500/10 text-amber-600 dark:text-amber-500'}`}>
-                        {Math.round((i.totalScore / i.maxScore) * 100)}%
-                      </span>
-                    </td>
-                    <td className="px-8 py-4 text-right">
-                      <button onClick={() => navigate(`/feedback/${i._id}`)} className="text-sm font-bold text-indigo-600 dark:text-indigo-400 hover:underline">
-                        View Report
-                      </button>
-                    </td>
+            {interviews.length === 0 ? (
+              <div className="p-12 text-center">
+                <p className="text-slate-500 dark:text-slate-400 mb-4">No interviews completed yet.</p>
+                <button 
+                  onClick={() => navigate('/select-role')}
+                  className="btn-primary !px-6 !py-2.5 text-sm"
+                >
+                  Start Your First Mock Interview
+                </button>
+              </div>
+            ) : (
+              <table className="w-full text-left">
+                <thead className="bg-slate-50 dark:bg-slate-800/50">
+                  <tr>
+                    <th className="px-8 py-4 text-xs font-black text-slate-500 uppercase tracking-widest">Role</th>
+                    <th className="px-8 py-4 text-xs font-black text-slate-500 uppercase tracking-widest">Date</th>
+                    <th className="px-8 py-4 text-xs font-black text-slate-500 uppercase tracking-widest">Score</th>
+                    <th className="px-8 py-4 text-xs font-black text-slate-500 uppercase tracking-widest text-right">Action</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+                  {interviews.map((i) => {
+                    const scorePct = i.maxScore > 0 ? Math.round((i.totalScore / i.maxScore) * 100) : i.totalScore;
+                    return (
+                      <tr key={i._id} className="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+                        <td className="px-8 py-4">
+                          <div className="text-sm font-bold text-slate-800 dark:text-white">{i.role}</div>
+                        </td>
+                        <td className="px-8 py-4 text-sm text-slate-500 dark:text-slate-400 font-medium">{new Date(i.createdAt).toLocaleDateString()}</td>
+                        <td className="px-8 py-4">
+                          <span className={`px-2 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider ${scorePct >= 70 ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-500' : 'bg-amber-500/10 text-amber-600 dark:text-amber-500'}`}>
+                            {scorePct}%
+                          </span>
+                        </td>
+                        <td className="px-8 py-4 text-right">
+                          <button onClick={() => navigate(`/feedback/${i._id}`)} className="text-sm font-bold text-indigo-600 dark:text-indigo-400 hover:underline">
+                            View Report
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            )}
           </div>
         </div>
       </div>

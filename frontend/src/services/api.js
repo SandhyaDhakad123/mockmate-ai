@@ -1,7 +1,19 @@
 import axios from 'axios';
 
+const getBaseUrl = () => {
+  if (import.meta.env.VITE_API_URL) {
+    return import.meta.env.VITE_API_URL;
+  }
+  // When running locally in dev, use /api proxy to connect to local server
+  if (import.meta.env.DEV) {
+    return '/api';
+  }
+  // Production fallback to deployed Render backend
+  return 'https://mockmate-ai-x4ia.onrender.com/api';
+};
+
 const API = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'https://mockmate-ai-x4ia.onrender.com/api',
+  baseURL: getBaseUrl(),
   timeout: 30000
 });
 
@@ -12,13 +24,20 @@ API.interceptors.request.use((config) => {
   return config;
 });
 
-
 API.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      localStorage.removeItem('token');
-      window.location.href = '/login';
+      const isAuthUrl = error.config?.url?.includes('/auth/login') || error.config?.url?.includes('/auth/register');
+      const isAuthPath = typeof window !== 'undefined' && (
+        window.location.pathname.startsWith('/login') ||
+        window.location.pathname.startsWith('/register')
+      );
+
+      if (!isAuthUrl && !isAuthPath) {
+        localStorage.removeItem('token');
+        window.location.href = '/login';
+      }
     }
 
     return Promise.reject(error);

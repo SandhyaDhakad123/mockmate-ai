@@ -1,6 +1,8 @@
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
-import { AuthProvider, useAuth } from './context/AuthContext';
+import { Toaster } from 'react-hot-toast';
+import { AuthProvider } from './context/AuthContext';
+import { useAuth } from './context/useAuth';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -12,20 +14,19 @@ import InterviewRoom from './pages/InterviewRoom';
 import CodingRoom from './pages/CodingRoom';
 import Feedback from './pages/Feedback';
 import Analytics from './pages/Analytics';
+import AdminDashboard from './pages/AdminDashboard';
 
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
   if (loading) {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-[#0f172a]">
-      <div className="w-10 h-10 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
-    </div>
-  );
-}
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#0f172a]">
+        <div className="w-10 h-10 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
   return user ? children : <Navigate to="/login" replace />;
 };
-
-import AdminDashboard from './pages/AdminDashboard';
 
 function AnimatedRoutes() {
   const location = useLocation();
@@ -52,8 +53,6 @@ function AnimatedRoutes() {
     </AnimatePresence>
   );
 }
-
-import { Toaster } from 'react-hot-toast';
 
 export default function App() {
   return (

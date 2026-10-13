@@ -1,13 +1,23 @@
 {
   "name": "ai-powered-mock-interview",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "MockMate AI - AI-Powered Mock Interview & Real-Time Confidence Analysis Platform",
+  "main": "backend/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "npm --prefix backend start",
+    "dev:backend": "npm --prefix backend run dev",
+    "dev:frontend": "npm --prefix frontend run dev",
+    "build:frontend": "npm --prefix frontend run build",
+    "lint:frontend": "npm --prefix frontend run lint"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs"
+  "keywords": [
+    "mock-interview",
+    "ai",
+    "gemini",
+    "react",
+    "nodejs",
+    "express"
+  ],
+  "author": "Sandhya Dhakad",
+  "license": "ISC"
 }

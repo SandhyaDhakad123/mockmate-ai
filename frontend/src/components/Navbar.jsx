@@ -1,5 +1,5 @@
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../context/useAuth';
 import { LogOut, LayoutDashboard, FileText, PlayCircle, Sun, Moon } from 'lucide-react';
 import { useState, useEffect } from 'react';
 

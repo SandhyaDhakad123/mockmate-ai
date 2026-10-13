@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { getInterviewDetails } from '../services/api';
 import MotionPage from '../components/UI/MotionPage';
 import { CardSkeleton } from '../components/UI/Skeleton';
-import { Download, CheckCircle2, XCircle, Lightbulb, Trophy, FileText, Zap } from 'lucide-react';
+import { Download, CheckCircle2, XCircle, Lightbulb, Zap } from 'lucide-react';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 

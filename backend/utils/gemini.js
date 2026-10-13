@@ -1,23 +1,59 @@
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+
+/**
+ * Robust AI content generation with automatic model fallback
+ */
+const generateAIContent = async (prompt) => {
+  const modelNames = [
+    process.env.GEMINI_MODEL,
+    'gemini-flash-lite-latest',
+    'gemini-flash-latest',
+    'gemini-3.5-flash-lite',
+    'gemini-3.8-flash'
+  ].filter(Boolean);
+
+  let lastError = null;
+  for (const modelName of modelNames) {
+    try {
+      const model = genAI.getGenerativeModel({ model: modelName });
+      const result = await model.generateContent(prompt);
+      const text = result.response.text().trim();
+      return text;
+    } catch (err) {
+      lastError = err;
+      console.warn(`[Gemini] Model ${modelName} warning: ${err.message}. Trying next candidate...`);
+    }
+  }
+  throw lastError || new Error('All candidate Gemini models failed');
+};
 
 /**
  * Enterprise Reliability Utilities
  */
 const safeParseJSON = (text, fallback = null) => {
+  if (!text) return fallback;
   try {
     // 1. Strip potential markdown code blocks
-    let cleaned = text.replace(/```json/g, '').replace(/```/g, '').trim();
-    
-    // 2. Extract JSON structure (handle case where AI adds preamble)
-    const jsonMatch = cleaned.match(/[\{\[]([\s\S]*?)[\}\]]/);
-    if (jsonMatch) cleaned = jsonMatch[0];
-    
-    return JSON.parse(cleaned);
+    let cleaned = text.replace(/```(?:json)?/gi, '').replace(/```/g, '').trim();
+
+    // 2. Try direct JSON parse
+    try {
+      return JSON.parse(cleaned);
+    } catch (_) {}
+
+    // 3. Extract JSON structure between outermost braces or brackets
+    const firstBrace = cleaned.search(/[\{\[]/);
+    const lastBrace = Math.max(cleaned.lastIndexOf('}'), cleaned.lastIndexOf(']'));
+    if (firstBrace !== -1 && lastBrace !== -1 && lastBrace > firstBrace) {
+      cleaned = cleaned.substring(firstBrace, lastBrace + 1);
+      return JSON.parse(cleaned);
+    }
+
+    return fallback;
   } catch (err) {
-    console.warn("AI JSON Parse Warning: Falling back to safe defaults", err);
+    console.warn("AI JSON Parse Warning: Falling back to safe defaults", err.message);
     return fallback;
   }
 };
@@ -52,8 +88,7 @@ Rules:
 Example format:
 ["Question 1?", "Question 2?", "Question 3?"]`;
 
-    const result = await model.generateContent(prompt);
-    const text = result.response.text().trim();
+    const text = await generateAIContent(prompt);
     return safeParseJSON(text, ["Tell me about your experience with modern web frameworks.", "How do you handle state management?", "Describe a challenging bug you fixed."]);
   } catch (err) {
     console.error("Gemini API Error (Questions):", err.message);
@@ -83,8 +118,7 @@ Evaluate the answer and respond with ONLY a valid JSON object:
   "followUp": "<a follow-up question if the answer was incomplete or shallow, else empty string>"
 }`;
 
-    const result = await model.generateContent(prompt);
-    const text = result.response.text().trim();
+    const text = await generateAIContent(prompt);
     return safeParseJSON(text, {
       score: 5,
       feedback: "Answer recorded. AI evaluation fallback triggered.",
@@ -124,8 +158,7 @@ Generate a comprehensive feedback report as ONLY a valid JSON object:
   "recommendations": ["<recommendation 1>", "<recommendation 2>", "<recommendation 3>", "<recommendation 4>"]
 }`;
 
-    const result = await model.generateContent(prompt);
-    const text = result.response.text().trim();
+    const text = await generateAIContent(prompt);
     return safeParseJSON(text, {
       overallFeedback: "Standard review complete.",
       communicationScore: 5,
@@ -175,8 +208,7 @@ Return ONLY a valid JSON object with this structure:
   "achievements": ["string"]
 }`;
 
-    const result = await model.generateContent(prompt);
-    const text = result.response.text().trim();
+    const text = await generateAIContent(prompt);
     return safeParseJSON(text, {
       skills: [],
       technologies: [],
@@ -214,8 +246,7 @@ Evaluate the match and return ONLY a valid JSON object:
   "missingSkills": ["<skill 1>", "<skill 2>"]
 }`;
 
-    const result = await model.generateContent(prompt);
-    const text = result.response.text().trim();
+    const text = await generateAIContent(prompt);
     return safeParseJSON(text, {
       atsScore: 0,
       atsFeedback: "ATS parsing failed. Please check resume structure.",
@@ -249,8 +280,7 @@ Return ONLY a valid JSON object:
   ]
 }`;
 
-    const result = await model.generateContent(prompt);
-    const text = result.response.text().trim();
+    const text = await generateAIContent(prompt);
     const problem = safeParseJSON(text, {
       title: "Algorithmic Challenge",
       problemStatement: "Describe how you would solve a complex problem using standard DSA.",
@@ -297,8 +327,7 @@ Return ONLY a valid JSON object:
   "suggestions": ["<suggestion 1>", "<suggestion 2>"]
 }`;
 
-    const result = await model.generateContent(prompt);
-    const text = result.response.text().trim();
+    const text = await generateAIContent(prompt);
     return safeParseJSON(text, {
       logicScore: 5,
       complexityScore: 5,

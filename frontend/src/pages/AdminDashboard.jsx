@@ -11,7 +11,7 @@ export default function AdminDashboard() {
   useEffect(() => {
     getAdminStats()
       .then(res => setStats(res.data))
-      .catch(err => toast.error("Admin access denied or error fetching stats"))
+      .catch(() => toast.error("Admin access denied or error fetching stats"))
       .finally(() => setLoading(false));
   }, []);
 

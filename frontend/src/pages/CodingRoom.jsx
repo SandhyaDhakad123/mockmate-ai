@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Editor from '@monaco-editor/react';
+import { motion } from 'framer-motion';
 import { getCodingSession, submitCode } from '../services/api';
 import MotionPage from '../components/UI/MotionPage';
 import { CardSkeleton } from '../components/UI/Skeleton';
-import { Play, Send, Zap, ChevronLeft } from 'lucide-react';
+import { Send, Zap, ChevronLeft } from 'lucide-react';
 
 export default function CodingRoom() {
   const { id } = useParams();
@@ -63,6 +64,7 @@ export default function CodingRoom() {
       const res = await submitCode({ interviewId: id, code });
       setResult(res.data.data);
     } catch (err) {
+      console.error(err);
       setError('Failed to evaluate code');
     } finally {
       setSubmitting(false);

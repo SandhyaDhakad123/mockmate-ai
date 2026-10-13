@@ -3,8 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { startInterview } from '../services/api';
 import MotionPage from '../components/UI/MotionPage';
 import { toast } from 'react-hot-toast';
-import { Search, Building2, Briefcase, Zap, Star, ShieldCheck, ChevronRight, Globe } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { Search, Zap, ShieldCheck, ChevronRight } from 'lucide-react';
 
 export default function SelectRole() {
   const [role, setRole] = useState('');
@@ -35,6 +34,7 @@ export default function SelectRole() {
       toast.success(`Interview for ${company?.name || 'General'} started!`);
       navigate(`/interview/${res.data.data._id}`);
     } catch (err) {
+      console.error("Start interview error:", err);
       toast.error("Failed to start interview");
     } finally {
       setLoading(false);

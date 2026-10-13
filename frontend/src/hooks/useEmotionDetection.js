@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import * as faceapi from 'face-api.js';
 
 export const useEmotionDetection = (videoRef) => {
@@ -25,7 +25,7 @@ export const useEmotionDetection = (videoRef) => {
     loadModels();
   }, []);
 
-  const startDetection = () => {
+  const startDetection = useCallback(() => {
     if (!modelsLoaded || !videoRef.current) return;
 
     detectionInterval.current = setInterval(async () => {
@@ -59,14 +59,14 @@ export const useEmotionDetection = (videoRef) => {
         setConfidence(0);
       }
     }, 1000); // Detect every second
-  };
+  }, [modelsLoaded, videoRef]);
 
   useEffect(() => {
     if (modelsLoaded) startDetection();
     return () => {
       if (detectionInterval.current) clearInterval(detectionInterval.current);
     };
-  }, [modelsLoaded, videoRef]);
+  }, [modelsLoaded, startDetection]);
 
   return { emotion, confidence, modelsLoaded };
 };

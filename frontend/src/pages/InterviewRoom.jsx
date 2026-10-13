@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getInterviewDetails, submitAnswer, finishInterview } from '../services/api';
 import { toast } from 'react-hot-toast';
-import { Send, ChevronRight, Mic, MicOff, Camera, CameraOff, AlertCircle, Info, Activity } from 'lucide-react';
+import { ChevronRight, Mic, MicOff, Camera, CameraOff, Info, Activity } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import EmotionTracker from '../components/Interview/EmotionTracker';
 import InterviewRecorder from '../components/Interview/InterviewRecorder';
@@ -223,6 +223,7 @@ export default function InterviewRoom() {
       toast.success("Interview completed!");
       navigate(`/feedback/${id}`);
     } catch (err) {
+      console.error("Error finalizing interview:", err);
       toast.error("Error finalizing interview");
     }
   };
