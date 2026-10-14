@@ -18,6 +18,7 @@ const generateAIContent = async (prompt) => {
   for (const modelName of modelNames) {
     try {
       const model = genAI.getGenerativeModel({ model: modelName });
+      console.log("Gemini model being tried:", modelName);
       const result = await model.generateContent(prompt);
       const text = result.response.text().trim();
       return text;
@@ -75,18 +76,38 @@ const setCachedResult = (key, value) => {
 const generateQuestions = async (role, skills, difficulty = 'medium', company = 'General') => {
   try {
     const skillList = skills.length > 0 ? skills.join(', ') : 'general programming';
-    const prompt = `You are an expert technical interviewer at ${company}. Generate exactly 8 interview questions for a ${role} position.
-Candidate skills from resume: ${skillList}
-Difficulty level: ${difficulty}
+    
+const prompt = `You are an experienced technical interviewer conducting a REAL job interview.
+
+Job Role: ${role}
+Candidate Skills: ${skillList}
+Difficulty: ${difficulty}
+Company: ${company}
+
+Generate exactly 8 realistic interview questions.
 
 Rules:
-- Mix technical, behavioral, and ${company}-specific culture questions
-- Make questions relevant to the skills listed
-- Include at least 2 practical/scenario-based questions
-- Return ONLY a valid JSON array of strings, no explanation
+1. Ask commonly asked interview questions for this job role.
+2. Focus on the candidate's actual skills and their practical usage.
+3. Start with basic questions and gradually increase difficulty.
+4. Include questions about concepts, implementation, debugging, and real-world scenarios.
+5. Include HR questions only when relevant, maximum 1 question.
+6. Do not invent projects, work experience, or skills not provided.
+7. Avoid strange, philosophical, vague, or irrelevant questions.
+8. Do not repeat questions or ask the same concept in different words.
+9. Use clear, natural language that a real interviewer would use.
+10. Do not invent company-specific interview practices.
+11. Return ONLY a valid JSON array containing exactly 8 question strings.
+12. Do not include answers, headings, numbering, or explanations.
 
-Example format:
-["Question 1?", "Question 2?", "Question 3?"]`;
+Examples of realistic questions:
+- Explain the difference between let, const, and var in JavaScript.
+- How does useEffect work in React?
+- How does authentication work in your project?
+- How would you debug an API returning a 500 status code?
+- What technical challenge did you face while developing your project?
+
+Return only the JSON array.`;
 
     const text = await generateAIContent(prompt);
     return safeParseJSON(text, ["Tell me about your experience with modern web frameworks.", "How do you handle state management?", "Describe a challenging bug you fixed."]);

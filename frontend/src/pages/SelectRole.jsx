@@ -12,14 +12,51 @@ export default function SelectRole() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const companies = [
-    { name: 'Google', logo: 'G', color: 'text-red-500', bg: 'bg-red-500/10' },
-    { name: 'Amazon', logo: 'A', color: 'text-orange-500', bg: 'bg-orange-500/10' },
-    { name: 'Microsoft', logo: 'M', color: 'text-blue-500', bg: 'bg-blue-500/10' },
-    { name: 'TCS', logo: 'T', color: 'text-indigo-500', bg: 'bg-indigo-500/10' },
-    { name: 'Infosys', logo: 'I', color: 'text-blue-400', bg: 'bg-blue-400/10' },
-    { name: 'Accenture', logo: 'A', color: 'text-purple-500', bg: 'bg-purple-500/10' },
-  ];
+  
+const companies = [
+  { name: 'Google', logo: 'G', color: 'text-red-500', bg: 'bg-red-500/10' },
+  { name: 'Amazon', logo: 'A', color: 'text-orange-500', bg: 'bg-orange-500/10' },
+  { name: 'Microsoft', logo: 'M', color: 'text-blue-500', bg: 'bg-blue-500/10' },
+  { name: 'TCS', logo: 'T', color: 'text-indigo-500', bg: 'bg-indigo-500/10' },
+  { name: 'Infosys', logo: 'I', color: 'text-blue-400', bg: 'bg-blue-400/10' },
+  { name: 'Accenture', logo: 'A', color: 'text-purple-500', bg: 'bg-purple-500/10' },
+  { name: 'Meta', logo: 'M', color: 'text-blue-500', bg: 'bg-blue-500/10' },
+  { name: 'Apple', logo: 'A', color: 'text-gray-300', bg: 'bg-gray-500/10' },
+  { name: 'Netflix', logo: 'N', color: 'text-red-500', bg: 'bg-red-500/10' },
+  { name: 'Adobe', logo: 'A', color: 'text-red-500', bg: 'bg-red-500/10' },
+  { name: 'NVIDIA', logo: 'N', color: 'text-green-500', bg: 'bg-green-500/10' },
+  { name: 'IBM', logo: 'I', color: 'text-blue-400', bg: 'bg-blue-400/10' },
+  { name: 'Oracle', logo: 'O', color: 'text-red-500', bg: 'bg-red-500/10' },
+  { name: 'Salesforce', logo: 'S', color: 'text-sky-400', bg: 'bg-sky-400/10' },
+  { name: 'Cisco', logo: 'C', color: 'text-cyan-400', bg: 'bg-cyan-400/10' },
+  { name: 'Intel', logo: 'I', color: 'text-blue-500', bg: 'bg-blue-500/10' },
+  { name: 'Qualcomm', logo: 'Q', color: 'text-blue-400', bg: 'bg-blue-400/10' },
+  { name: 'Uber', logo: 'U', color: 'text-gray-300', bg: 'bg-gray-500/10' },
+  { name: 'Atlassian', logo: 'A', color: 'text-blue-500', bg: 'bg-blue-500/10' },
+  { name: 'Flipkart', logo: 'F', color: 'text-yellow-400', bg: 'bg-yellow-500/10' },
+  { name: 'Wipro', logo: 'W', color: 'text-purple-400', bg: 'bg-purple-500/10' },
+  { name: 'HCLTech', logo: 'H', color: 'text-blue-400', bg: 'bg-blue-500/10' },
+  { name: 'Tech Mahindra', logo: 'T', color: 'text-red-400', bg: 'bg-red-500/10' },
+  { name: 'Cognizant', logo: 'C', color: 'text-blue-400', bg: 'bg-blue-500/10' },
+  { name: 'Capgemini', logo: 'C', color: 'text-blue-400', bg: 'bg-blue-500/10' },
+  { name: 'Deloitte', logo: 'D', color: 'text-green-500', bg: 'bg-green-500/10' },
+  { name: 'PwC', logo: 'P', color: 'text-orange-400', bg: 'bg-orange-500/10' },
+  { name: 'EY', logo: 'E', color: 'text-yellow-400', bg: 'bg-yellow-500/10' },
+  { name: 'KPMG', logo: 'K', color: 'text-blue-400', bg: 'bg-blue-500/10' },
+  { name: 'JPMorgan Chase', logo: 'J', color: 'text-blue-400', bg: 'bg-blue-500/10' },
+  { name: 'Goldman Sachs', logo: 'G', color: 'text-sky-400', bg: 'bg-sky-500/10' },
+  { name: 'PhonePe', logo: 'P', color: 'text-purple-500', bg: 'bg-purple-500/10' },
+  { name: 'Paytm', logo: 'P', color: 'text-sky-400', bg: 'bg-sky-500/10' },
+  { name: 'Swiggy', logo: 'S', color: 'text-orange-400', bg: 'bg-orange-500/10' },
+  { name: 'Zomato', logo: 'Z', color: 'text-red-500', bg: 'bg-red-500/10' },
+  { name: 'Walmart', logo: 'W', color: 'text-yellow-400', bg: 'bg-yellow-500/10' },
+  { name: 'SAP', logo: 'S', color: 'text-blue-400', bg: 'bg-blue-500/10' },
+  { name: 'ServiceNow', logo: 'S', color: 'text-green-400', bg: 'bg-green-500/10' },
+  { name: 'PayPal', logo: 'P', color: 'text-blue-400', bg: 'bg-blue-500/10' },
+  { name: 'Spotify', logo: 'S', color: 'text-green-500', bg: 'bg-green-500/10' },
+  { name: 'AMD', logo: 'A', color: 'text-red-400', bg: 'bg-red-500/10' }
+];
+
 
   const handleStart = async () => {
     if (!role) return toast.error("Please specify a target role");
